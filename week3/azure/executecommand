@@ -1,0 +1,21 @@
+#Create a resource group in powerahell
+Load code from the function:
+open file: New-ResourceGroup.ps1 select all and f8 run, then execute:
+New-ResourceGroup -rgName 'jhcloudskills' -location 'eastus2'
+
+#Create a resource group from cli
+az deployment group create --resource-group jhcloudskills --template-file
+
+#Create a environment in a resource group previously created and it would ask for a parameter password during execution
+az deployment group create --resource-group jhcloudskills --template-file ./azuretemplate.json
+#Passing the password directly with the template
+az deployment group create --resource-group jhcloudskills --template-file ./azuretemplate.json -p adminpassword="Azure2021*"
+
+#option1 from the gui delete the resource group: jhcloudskills
+#Remove all resources inside a resource group (deloy an empty arm template) CLI
+az deployment group create --mode complete --template-file ./emptytemplate.json --resource-group jhcloudskills
+
+#Remove a Resource group in powershell
+Remove-AzResourceGroup -Name ExampleResourceGroup
+#remove a resourcegroup in azure CLI
+az group delete --name ExampleResourceGroup

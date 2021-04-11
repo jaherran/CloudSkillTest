@@ -1,0 +1,11 @@
+#Login into account
+az login
+
+#List accounts
+az account list --output table
+
+#Set account
+az 
+
+# List resource groups
+az group list

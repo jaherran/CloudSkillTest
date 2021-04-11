@@ -1,0 +1,6 @@
+To use bicep execute:
+C:\Users\Jaherran\.azure\bin\bicep.exe build main.bicep 
+It would generate a main.json file from main.bicep it is an arm squeleton
+
+Then after the template is created from bicep (.json file) procede to deploy with az cli
+az deployment group create --resource-group jhcloudskills --template-file ./storage.json -p name="jhcloudstorage"
