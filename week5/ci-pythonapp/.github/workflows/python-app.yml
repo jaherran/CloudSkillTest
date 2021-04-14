@@ -5,9 +5,11 @@ name: Python application
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
   pull_request:
-    branches: [ master ]
+    branches:
+      - 'master'
 
 jobs:
   build:
@@ -35,3 +37,9 @@ jobs:
       run: | 
         mkdir testresults
         pytest Tests/unit_tests --junitxml=./testresults/test-results.xml
+    - name: Publish Unit Test Results
+    # You may pin to the exact commit or the version.
+    # uses: EnricoMi/publish-unit-test-result-action@08fef70b5c83413abf5e2ee5ea02829bb5937190
+      uses: EnricoMi/publish-unit-test-result-action@v1.11
+      with:
+         files: ./testresults/test-results.xml
