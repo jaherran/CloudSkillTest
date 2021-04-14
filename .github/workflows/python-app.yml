@@ -5,9 +5,11 @@ name: Cloudskills Python application
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+       - 'CloudSkillTest/week5/ci-pythonapp/Application'
   create:
-    branches: [ master ]
+    branches:
+       - 'CloudSkillTest/week5/ci-pythonapp/Application'
 
 jobs:
   build:
