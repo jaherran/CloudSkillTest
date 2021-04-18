@@ -22,11 +22,11 @@ jobs:
 
     #Add environment variables to support terraform execution
     env: 
-      ARM_SUBSCRIPTION_ID:'44cf98fd-a133-4e53-beb4-ac149e28d8e6'
-      ARM_TENANT_ID:'64415341-932a-40cd-b156-0e78843cb909'
-      ARM_CLIENT_ID:'c032072a-86cc-4046-bc3c-2bbcbd9f01ae'
-      ARM_CLIENT_SECRET:${{ secrets.ARM_CLIENT_SECRET }}
-      AZURE_STORAGE:'Terrajh2021'    
+      ARM_SUBSCRIPTION_ID: '44cf98fd-a133-4e53-beb4-ac149e28d8e6'
+      ARM_TENANT_ID: '64415341-932a-40cd-b156-0e78843cb909'
+      ARM_CLIENT_ID: 'c032072a-86cc-4046-bc3c-2bbcbd9f01ae'
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      AZURE_STORAGE: 'Terrajh2021'    
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,7 +49,7 @@ jobs:
         
       # Init terraform and store state in the storage created in azure
       - name: Terraform Init
-        uses: terraform init -backend-config="storage_account_name=${{env.AZURE_STORAGE}}"
+        uses: terraform init -backend-config="storage_account_name=${{ env.AZURE_STORAGE }}"
         
       # Create a terraform plan output file in order to been able to restore a previous state
       - name: Terraform Plan
