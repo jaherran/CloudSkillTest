@@ -1,0 +1,62 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Terrfaorm Github Actions
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    #Add environment variables to support terraform execution
+    env: 
+      ARM_SUBSCRIPTION_ID:'44cf98fd-a133-4e53-beb4-ac149e28d8e6'
+      ARM_TENANT_ID:'64415341-932a-40cd-b156-0e78843cb909'
+      ARM_CLIENT_ID:'c032072a-86cc-4046-bc3c-2bbcbd9f01ae'
+      ARM_CLIENT_SECRET:${{ secrets.ARM_CLIENT_SECRET }}
+      AZURE_STORAGE:'Terrajh2021'    
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      # Runs a single command using the runners shell
+      - name: Build Terraform State 
+        run: chmod +x ./week5/tfgithubaction/tfstate.sh && ./week5/tfgithubaction/tfstate.sh ${{ env.AZURE_STORAGE }}
+      
+      #Install Terraform inside the ubuntu instance to execute code
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v1.2.1
+        
+      # Init terraform and store state in the storage created in azure
+      - name: Terraform Init
+        uses: terraform init -backend-config="storage_account_name=${{ env.AZURE_STORAGE }}"
+        
+      # Create a terraform plan output file in order to been able to restore a previous state
+      - name: Terraform Plan
+        uses: terraform plan -out=tfplan
+        
+      # Apply terraform plan created
+      - name: Terraform Apply
+        uses: terraform apply tfplan
+
+ 
