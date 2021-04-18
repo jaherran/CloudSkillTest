@@ -50,8 +50,8 @@ jobs:
       # Init terraform and store state in the storage created in azure
       - name: Terraform Init
         env:
-          AZURE_STORAGE: 'Terrajh2021'
-        uses: terraform init -backend-config="storage_account_name=${{ env.AZURE_STORAGE }}"
+          storage_account_name: ${{ env.AZURE_STORAGE }}
+        uses: terraform init -backend-config="${{ env.storage_account_name }}"
         
       # Create a terraform plan output file in order to been able to restore a previous state
       - name: Terraform Plan
